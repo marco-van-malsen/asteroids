@@ -2,6 +2,7 @@
 // Original: Daniel Shiffman
 // Extended: Marco van Malsen
 
+// define playing elements
 var ship;
 var asteroids = [];
 var lasers = [];
@@ -25,9 +26,9 @@ function draw() {
 
   // animate the asteroids
   for (var i = 0; i < asteroids.length; i++) {
-    // ship collide with an osteroid
+    // ship collided with an osteroid
     if (ship.hits(asteroids[i])) {
-      console.log('ooops!');
+      console.log('OOOP!');
     }
     asteroids[i].render();
     asteroids[i].update();
