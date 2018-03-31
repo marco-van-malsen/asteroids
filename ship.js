@@ -1,7 +1,6 @@
-// Daniel Shiffman
-// http://codingtra.in
-// http://patreon.com/codingtrain
-// Code for: https://youtu.be/hacZU523FyM
+// Asteroids game
+// Original: Daniel Shiffman
+// Extended: Marco van Malsen
 
 function Ship() {
   this.pos = createVector(width / 2, height / 2);
@@ -11,10 +10,12 @@ function Ship() {
   this.vel = createVector(0, 0);
   this.isBoosting = false;
 
+  // speed up
   this.boosting = function(b) {
     this.isBoosting = b;
   }
 
+  // update ships position
   this.update = function() {
     if (this.isBoosting) {
       this.boost();
@@ -23,12 +24,14 @@ function Ship() {
     this.vel.mult(0.99);
   }
 
+  // increase speed
   this.boost = function() {
     var force = p5.Vector.fromAngle(this.heading);
     force.mult(0.1);
     this.vel.add(force);
   }
 
+  // check if ship collides with an asteroid
   this.hits = function(asteroid) {
     var d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
     if (d < this.r + asteroid.r) {
@@ -38,6 +41,7 @@ function Ship() {
     }
   }
 
+  // show the ship
   this.render = function() {
     push();
     translate(this.pos.x, this.pos.y);
@@ -48,6 +52,7 @@ function Ship() {
     pop();
   }
 
+  // if the ship leaves the screen it will appear on the opposite side
   this.edges = function() {
     if (this.pos.x > width + this.r) {
       this.pos.x = -this.r;
@@ -61,12 +66,13 @@ function Ship() {
     }
   }
 
+  // set rotation; will turn the ship
   this.setRotation = function(a) {
     this.rotation = a;
   }
 
+  // turn ship
   this.turn = function() {
     this.heading += this.rotation;
   }
-
 }
