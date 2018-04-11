@@ -2,19 +2,20 @@
 // Original: Daniel Shiffman
 // Extended: Marco van Malsen
 
-// a laser
-function Laser(spos, angle) {
-  this.pos = createVector(spos.x, spos.y);
-  this.vel = p5.Vector.fromAngle(angle);
-  this.vel.mult(10);
+class Laser {
+  constructor(spos, angle) {
+    this.pos = createVector(spos.x, spos.y);
+    this.vel = p5.Vector.fromAngle(angle);
+    this.vel.mult(10);
+  }
 
   // update laser's position
-  this.update = function() {
+  update() {
     this.pos.add(this.vel);
   }
 
   // show the laser
-  this.render = function() {
+  render() {
     push();
     stroke(255);
     strokeWeight(4);
@@ -23,7 +24,7 @@ function Laser(spos, angle) {
   }
 
   // check if the laser hits an asteroid
-  this.hits = function(asteroid) {
+  hits(asteroid) {
     var d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
     if (d < asteroid.r) {
       return true;
@@ -33,7 +34,7 @@ function Laser(spos, angle) {
   }
 
   // check if laser left the screen
-  this.offscreen = function() {
+  offscreen() {
     if (this.pos.x > width || this.pos.x < 0) {
       return true;
     }

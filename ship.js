@@ -2,21 +2,23 @@
 // Original: Daniel Shiffman
 // Extended: Marco van Malsen
 
-function Ship() {
-  this.pos = createVector(width / 2, height / 2);
-  this.r = 20;
-  this.heading = 0;
-  this.rotation = 0;
-  this.vel = createVector(0, 0);
-  this.isBoosting = false;
+class Ship {
+  constructor() {
+    this.pos = createVector(width / 2, height / 2);
+    this.r = 20;
+    this.heading = 0;
+    this.rotation = 0;
+    this.vel = createVector(0, 0);
+    this.isBoosting
+  }
 
   // speed up
-  this.boosting = function(b) {
+  boosting(b) {
     this.isBoosting = b;
   }
 
   // update ships position
-  this.update = function() {
+  update() {
     if (this.isBoosting) {
       this.boost();
     }
@@ -25,14 +27,14 @@ function Ship() {
   }
 
   // increase speed
-  this.boost = function() {
+  boost() {
     var force = p5.Vector.fromAngle(this.heading);
     force.mult(0.1);
     this.vel.add(force);
   }
 
   // check if ship collides with an asteroid
-  this.hits = function(asteroid) {
+  hits(asteroid) {
     var d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
     if (d < this.r + asteroid.r) {
       return true;
@@ -42,7 +44,7 @@ function Ship() {
   }
 
   // show the ship
-  this.render = function() {
+  render() {
     push();
     translate(this.pos.x, this.pos.y);
     rotate(this.heading + PI / 2);
@@ -53,7 +55,7 @@ function Ship() {
   }
 
   // if the ship leaves the screen it will appear on the opposite side
-  this.edges = function() {
+  edges() {
     if (this.pos.x > width + this.r) {
       this.pos.x = -this.r;
     } else if (this.pos.x < -this.r) {
@@ -67,12 +69,12 @@ function Ship() {
   }
 
   // set rotation; will turn the ship
-  this.setRotation = function(a) {
+  setRotation(a) {
     this.rotation = a;
   }
 
   // turn ship
-  this.turn = function() {
+  turn() {
     this.heading += this.rotation;
   }
 }
