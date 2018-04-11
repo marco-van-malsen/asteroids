@@ -20,7 +20,7 @@ class Asteroid {
     this.total = floor(random(5, 15));
     this.offset = [];
     for (var i = 0; i < this.total; i++) {
-      this.offset[i] = random(-this.r * 0.5, this.r * 0.5);
+      this.offset[i] = random(-this.r * 0.33, this.r * 0.33);
     }
   }
 

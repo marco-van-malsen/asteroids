@@ -50,7 +50,13 @@ class Ship {
     rotate(this.heading + PI / 2);
     fill(0);
     stroke(255);
-    triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
+    beginShape();
+    vertex(0, -20); // the nose
+    vertex(15, 20); // lower right tip
+    vertex(12, 15);
+    vertex(-12, 15);
+    vertex(-15, 20); // lower left tip
+    endShape(CLOSE);
     pop();
   }
 
