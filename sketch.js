@@ -4,20 +4,17 @@
 
 // define playing elements
 var ship;
-var asteroids = [];
-var lasers = [];
+var asteroids;
+var lasers;
+var score;
+var hiscore;
 
 function setup() {
   // create canvas at full window size
   createCanvas(windowWidth, windowHeight);
 
-  // add a new ship
-  ship = new Ship();
-
-  // add asteroids
-  for (var i = 0; i < 5; i++) {
-    asteroids.push(new Asteroid());
-  }
+  // initiate a new game
+  initGame();
 }
 
 function draw() {
@@ -47,10 +44,25 @@ function draw() {
     } else {
       for (var j = asteroids.length - 1; j >= 0; j--) {
         if (lasers[i].hits(asteroids[j])) {
-          if (asteroids[j].r > 10) {
+          //increase score
+          if (asteroids.size === 'SMALL') {
+            score += 50;
+          } else if (asteroids[j].size === 'MEDIUM') {
+            score += 20;
+          } else {
+            score += 10;
+          }
+
+          // show score
+          console.log('score:' + score);
+
+          // breakup asteroid
+          if (asteroids[j].size != 'SMALL') {
             var newAsteroids = asteroids[j].breakup();
             asteroids = asteroids.concat(newAsteroids);
           }
+
+          // remove asteroid and laser
           asteroids.splice(j, 1);
           lasers.splice(i, 1);
           break;
@@ -64,11 +76,37 @@ function draw() {
   ship.turn();
   ship.update();
   ship.edges();
+
+  //
+  if (asteroids.length === 0) {
+    console.log('game over');
+  }
+}
+
+// initate a new game
+function initGame() {
+  // add a new ship
+  ship = new Ship();
+
+  // setup score and hi-score
+  score = 0;
+  if (score > hiscore) {
+    hiscore = score;
+  }
+
+  // create lasers
+  lasers = [];
+
+  // create new asteroids
+  asteroids = [];
+  for (var i = 0; i < 5; i++) {
+    asteroids.push(new Asteroid());
+  }
 }
 
 // what happens when player presses a key
 function keyPressed() {
-  // SPACEBAR; add lasser
+  // SPACEBAR; add laser
   if (key == ' ') {
     lasers.push(new Laser(ship.pos, ship.heading));
     // RIGHT ARROW; turn player clock wise

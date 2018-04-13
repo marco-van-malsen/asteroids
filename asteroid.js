@@ -3,31 +3,73 @@
 // Extended: Marco van Malsen
 
 class Asteroid {
-  constructor(pos, r) {
+  constructor(pos, size) {
+    // breakup just destroyed asteroid; copy position
+    // or select random position
     if (pos) {
       this.pos = pos.copy();
     } else {
       this.pos = createVector(random(width), random(height))
     }
 
-    if (r) {
-      this.r = r * 0.5;
+    // asteroid starts as LARGE
+    // a laser hit breaks of the asteroid in two smaller pieces
+    // LARGE to MEDIUM to SMALL to DESTOYED
+    if (size === 'SMALL') {
+      this.size = 'DESTROYED';
+    } else if (size === 'MEDIUM') {
+      this.size = 'SMALL';
+    } else if (size === 'LARGE') {
+      this.size = 'MEDIUM';
     } else {
-      this.r = random(15, 50);
+      this.size = 'LARGE';
     }
 
+    // the asteroids size (determines the score)
+    if (this.size === 'LARGE') {
+      this.r = random(40, 60);
+    } else if (this.size === 'MEDIUM') {
+      this.r = random(20, 30);
+    } else if (this.size === 'SMALL') {
+      this.r = random(10, 15);
+    }
+
+    // set speed
     this.vel = p5.Vector.random2D();
+
+    // set number of edges
     this.total = floor(random(5, 15));
+
+    // set offset for each edge
     this.offset = [];
     for (var i = 0; i < this.total; i++) {
       this.offset[i] = random(-this.r * 0.33, this.r * 0.33);
     }
   }
 
-  update() {
-    this.pos.add(this.vel);
+  // breakup asteroid into two smaller asteroids
+  breakup() {
+    var newA = [];
+    newA[0] = new Asteroid(this.pos, this.size);
+    newA[1] = new Asteroid(this.pos, this.size);
+    return newA;
   }
 
+  // asteroids will wrap-around the screen
+  edges() {
+    if (this.pos.x > width + this.r) {
+      this.pos.x = -this.r;
+    } else if (this.pos.x < -this.r) {
+      this.pos.x = width + this.r;
+    }
+    if (this.pos.y > height + this.r) {
+      this.pos.y = -this.r;
+    } else if (this.pos.y < -this.r) {
+      this.pos.y = height + this.r;
+    }
+  }
+
+  // render the asteroid
   render() {
     push();
     stroke(255);
@@ -46,23 +88,7 @@ class Asteroid {
     pop();
   }
 
-  breakup() {
-    var newA = [];
-    newA[0] = new Asteroid(this.pos, this.r);
-    newA[1] = new Asteroid(this.pos, this.r);
-    return newA;
-  }
-
-  edges() {
-    if (this.pos.x > width + this.r) {
-      this.pos.x = -this.r;
-    } else if (this.pos.x < -this.r) {
-      this.pos.x = width + this.r;
-    }
-    if (this.pos.y > height + this.r) {
-      this.pos.y = -this.r;
-    } else if (this.pos.y < -this.r) {
-      this.pos.y = height + this.r;
-    }
+  update() {
+    this.pos.add(this.vel);
   }
 }

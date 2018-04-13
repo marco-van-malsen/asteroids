@@ -9,20 +9,6 @@ class Laser {
     this.vel.mult(10);
   }
 
-  // update laser's position
-  update() {
-    this.pos.add(this.vel);
-  }
-
-  // show the laser
-  render() {
-    push();
-    stroke(255);
-    strokeWeight(4);
-    point(this.pos.x, this.pos.y);
-    pop();
-  }
-
   // check if the laser hits an asteroid
   hits(asteroid) {
     var d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
@@ -42,5 +28,19 @@ class Laser {
       return true;
     }
     return false;
+  }
+
+  // show the laser
+  render() {
+    push();
+    stroke(255);
+    strokeWeight(4);
+    point(this.pos.x, this.pos.y);
+    pop();
+  }
+
+  // update laser's position
+  update() {
+    this.pos.add(this.vel);
   }
 }
