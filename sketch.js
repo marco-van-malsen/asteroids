@@ -35,48 +35,22 @@ function draw() {
   background(0);
 
   // draw the score
-  fill(255);
-  noStroke();
-  textSize(14);
-  textStyle(NORMAL);
-
-  textAlign(RIGHT);
-  text('Score:', 75, 20);
-  text('Hi-Score:', 75, 40);
-  text('Ratio:', 75, 60);
-  text('Lives:', 75, 80);
-
-  textAlign(LEFT);
-  text(score, 80, 20);
-  text(hiscore, 80, 40);
-  var ratio = int(lasers.hits / lasers.total * 100);
-  if (!ratio) ratio = 0;
-  text(nf(ratio, 0, 0) + '%', 80, 60);
-
-  // draw a ship for each life
-  var x = 90
-  var y = 85
-  for (i = 1; i <= lives; i++) {
-    push();
-    translate(x, y);
-    scale(0.5);
-    ship.draw();
-    pop();
-    x += 20;
-  }
+  updateInfo();
 
   // animate the asteroids
   for (var i = 0; i < asteroids.length; i++) {
     // ship collided with an asteroid
     if (ship.hits(asteroids[i])) {
-      if (lives > 1) {
-        lives--;
+      lives--;
+      if (lives > 0) {
         ship = new Ship();
-        break;
       } else {
+        updateInfo();
         gameOver();
+        break;
       }
     }
+
     asteroids[i].render();
     asteroids[i].update();
     asteroids[i].edges();
@@ -120,10 +94,12 @@ function draw() {
   }
 
   // show the ship
-  ship.render();
-  ship.turn();
-  ship.update();
-  ship.edges();
+  if (ship) {
+    ship.render();
+    ship.turn();
+    ship.update();
+    ship.edges();
+  }
 
   // start a new level
   if (asteroids.length === 0) {
@@ -201,6 +177,39 @@ function newLevel() {
   asteroids = [];
   for (var i = 0; i < 5; i++) {
     asteroids.push(new Asteroid());
+  }
+}
+
+// update game info
+function updateInfo() {
+  fill(255);
+  noStroke();
+  textSize(14);
+  textStyle(NORMAL);
+
+  textAlign(RIGHT);
+  text('Score:', 75, 20);
+  text('Hi-Score:', 75, 40);
+  text('Ratio:', 75, 60);
+  text('Lives:', 75, 80);
+
+  textAlign(LEFT);
+  text(score, 80, 20);
+  text(hiscore, 80, 40);
+  var ratio = int(lasers.hits / lasers.total * 100);
+  if (!ratio) ratio = 0;
+  text(nf(ratio, 0, 0) + '%', 80, 60);
+
+  // draw a ship for each life
+  var x = 90
+  var y = 85
+  for (i = 1; i <= lives; i++) {
+    push();
+    translate(x, y);
+    scale(0.5);
+    ship.draw();
+    pop();
+    x += 20;
   }
 }
 
