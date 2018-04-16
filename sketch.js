@@ -8,10 +8,22 @@ var asteroids;
 var lasers;
 var score;
 var hiscore;
+var myfont;
+
+// pre load stuff
+// function preload() {
+// myfont = loadFont('hyperspace.otf');
+// }
 
 function setup() {
   // create canvas at full window size
   createCanvas(windowWidth, windowHeight);
+
+  // initialize hi-score
+  hiscore = 0;
+
+  // set the font to be user throughout the game
+  // textFont(myfont);
 
   // initiate a new game
   initGame();
@@ -20,6 +32,20 @@ function setup() {
 function draw() {
   // space is a dark place
   background(0);
+
+  // draw the score
+  noFill();
+  stroke(255);
+  textSize(14);
+  textStyle(NORMAL);
+
+  textAlign(RIGHT);
+  text('Score:', 75, 20);
+  text('Hi-Score:', 75, 40);
+
+  textAlign(LEFT);
+  text(score, 80, 20);
+  text(hiscore, 80, 40);
 
   // animate the asteroids
   for (var i = 0; i < asteroids.length; i++) {
@@ -53,9 +79,6 @@ function draw() {
             score += 10;
           }
 
-          // show score
-          console.log('score:' + score);
-
           // breakup asteroid
           if (asteroids[j].size != 'SMALL') {
             var newAsteroids = asteroids[j].breakup();
@@ -79,29 +102,20 @@ function draw() {
 
   //
   if (asteroids.length === 0) {
-    console.log('game over');
+    newLevel();
   }
 }
 
 // initate a new game
 function initGame() {
-  // add a new ship
-  ship = new Ship();
-
   // setup score and hi-score
   score = 0;
   if (score > hiscore) {
     hiscore = score;
   }
 
-  // create lasers
-  lasers = [];
-
-  // create new asteroids
-  asteroids = [];
-  for (var i = 0; i < 5; i++) {
-    asteroids.push(new Asteroid());
-  }
+  // create new level
+  newLevel()
 }
 
 // what happens when player presses a key
@@ -125,4 +139,18 @@ function keyPressed() {
 function keyReleased() {
   ship.setRotation(0);
   ship.boosting(false);
+}
+
+function newLevel() {
+  // add a new ship
+  ship = new Ship();
+
+  // create lasers
+  lasers = [];
+
+  // create new asteroids
+  asteroids = [];
+  for (var i = 0; i < 5; i++) {
+    asteroids.push(new Asteroid());
+  }
 }
