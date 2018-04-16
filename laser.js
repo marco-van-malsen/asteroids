@@ -7,12 +7,14 @@ class Laser {
     this.pos = createVector(spos.x, spos.y);
     this.vel = p5.Vector.fromAngle(angle);
     this.vel.mult(10);
+    lasers.total += 1;
   }
 
   // check if the laser hits an asteroid
   hits(asteroid) {
     var d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
     if (d < asteroid.r) {
+      lasers.hits += 1;
       return true;
     } else {
       return false;

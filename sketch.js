@@ -42,10 +42,14 @@ function draw() {
   textAlign(RIGHT);
   text('Score:', 75, 20);
   text('Hi-Score:', 75, 40);
+  text('Ratio:', 75, 60);
 
   textAlign(LEFT);
   text(score, 80, 20);
   text(hiscore, 80, 40);
+  var ratio = int(lasers.hits / lasers.total * 100);
+  if (!ratio) ratio = 0;
+  text(nf(ratio, 0, 0) + '%', 80, 60);
 
   // animate the asteroids
   for (var i = 0; i < asteroids.length; i++) {
@@ -147,6 +151,8 @@ function newLevel() {
 
   // create lasers
   lasers = [];
+  lasers.hits = 0;
+  lasers.total = 0;
 
   // create new asteroids
   asteroids = [];
