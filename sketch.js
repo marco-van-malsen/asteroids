@@ -12,9 +12,9 @@ var score;
 var ship;
 
 // pre load stuff
-// function preload() {
-//   myfont = loadFont('hyperspace.otf');
-// }
+function preload() {
+  myfont = loadFont('assets/HyperspaceBold.otf');
+}
 
 function setup() {
   // create canvas at full window size
@@ -24,7 +24,10 @@ function setup() {
   hiscore = 0;
 
   // set the font to be user throughout the game
-  // textFont(myfont);
+  if (myfont) {
+    textFont(myfont);
+    textStyle(BOLD);
+  }
 
   // initiate a new game
   initGame();
@@ -122,7 +125,6 @@ function gameOver() {
   fill(255);
   noStroke();
   textSize(48);
-  // textStyle(NORMAL);
   textAlign(CENTER);
   text('GAME OVER', width * 0.5, height * 0.5);
   pop();
@@ -184,25 +186,24 @@ function newLevel() {
 function updateInfo() {
   fill(255);
   noStroke();
-  textSize(14);
-  textStyle(NORMAL);
+  textSize(18);
 
   textAlign(RIGHT);
-  text('Score:', 75, 20);
-  text('Hi-Score:', 75, 40);
-  text('Ratio:', 75, 60);
-  text('Lives:', 75, 80);
+  text('Score:', 105, 20);
+  text('Hi-Score:', 105, 40);
+  text('Ratio:', 105, 60);
+  text('Lives:', 105, 90);
 
   textAlign(LEFT);
-  text(score, 80, 20);
-  text(hiscore, 80, 40);
+  text(score, 110, 20);
+  text(hiscore, 110, 40);
   var ratio = int(lasers.hits / lasers.total * 100);
   if (!ratio) ratio = 0;
-  text(nf(ratio, 0, 0) + '%', 80, 60);
+  text(nf(ratio, 0, 0) + '%', 110, 60);
 
   // draw a ship for each life
-  var x = 90
-  var y = 85
+  var x = 115;
+  var y = 82;
   for (i = 1; i <= lives; i++) {
     push();
     translate(x, y);
@@ -211,6 +212,11 @@ function updateInfo() {
     pop();
     x += 20;
   }
+
+  // draw the Atari copyright
+  textSize(20);
+  textAlign(CENTER);
+  text('\u00A91979 ATARI INC', width / 2, height - 20);
 }
 
 function updateHiScore() {
