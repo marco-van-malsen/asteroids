@@ -12,9 +12,9 @@ var score;
 var ship;
 
 // pre load stuff
-function preload() {
-  myfont = loadFont('hyperspace.otf');
-}
+// function preload() {
+//   myfont = loadFont('hyperspace.otf');
+// }
 
 function setup() {
   // create canvas at full window size
@@ -24,7 +24,7 @@ function setup() {
   hiscore = 0;
 
   // set the font to be user throughout the game
-  textFont(myfont);
+  // textFont(myfont);
 
   // initiate a new game
   initGame();
@@ -122,7 +122,7 @@ function gameOver() {
   fill(255);
   noStroke();
   textSize(48);
-  textStyle(NORMAL);
+  // textStyle(NORMAL);
   textAlign(CENTER);
   text('GAME OVER', width * 0.5, height * 0.5);
   pop();
