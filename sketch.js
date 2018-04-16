@@ -53,7 +53,7 @@ function draw() {
 
   // animate the asteroids
   for (var i = 0; i < asteroids.length; i++) {
-    // ship collided with an osteroid
+    // ship collided with an asteroid
     if (ship.hits(asteroids[i])) {
       console.log('OOOP!');
     }
@@ -67,6 +67,7 @@ function draw() {
     // show the laser
     lasers[i].render();
     lasers[i].update();
+    lasers[i].edges();
 
     // remove laser when it leaves the scren
     if (lasers[i].offscreen()) {
