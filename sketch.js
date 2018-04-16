@@ -61,7 +61,7 @@ function draw() {
     // show the laser
     lasers[i].render();
     lasers[i].update();
-    lasers[i].edges();
+    // lasers[i].edges();
 
     // remove laser when it leaves the scren
     if (lasers[i].offscreen()) {
