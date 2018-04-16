@@ -24,6 +24,19 @@ class Ship {
     this.isBoosting = b;
   }
 
+  // draw the ship
+  draw() {
+    fill(0);
+    stroke(255);
+    beginShape();
+    vertex(0, -20); // the nose
+    vertex(15, 20); // lower right tip
+    vertex(12, 15);
+    vertex(-12, 15);
+    vertex(-15, 20); // lower left tip
+    endShape(CLOSE);
+  }
+
   // if the ship leaves the screen it will appear on the opposite side
   edges() {
     if (this.pos.x > width + this.r) {
@@ -53,15 +66,7 @@ class Ship {
     push();
     translate(this.pos.x, this.pos.y);
     rotate(this.heading + PI / 2);
-    fill(0);
-    stroke(255);
-    beginShape();
-    vertex(0, -20); // the nose
-    vertex(15, 20); // lower right tip
-    vertex(12, 15);
-    vertex(-12, 15);
-    vertex(-15, 20); // lower left tip
-    endShape(CLOSE);
+    this.draw();
     pop();
   }
 

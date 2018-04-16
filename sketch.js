@@ -3,12 +3,13 @@
 // Extended: Marco van Malsen
 
 // define playing elements
-var ship;
 var asteroids;
-var lasers;
-var score;
 var hiscore;
+var lasers;
+var lives;
 var myfont;
+var score;
+var ship;
 
 // pre load stuff
 // function preload() {
@@ -43,6 +44,7 @@ function draw() {
   text('Score:', 75, 20);
   text('Hi-Score:', 75, 40);
   text('Ratio:', 75, 60);
+  text('Lives:', 75, 80);
 
   textAlign(LEFT);
   text(score, 80, 20);
@@ -51,11 +53,29 @@ function draw() {
   if (!ratio) ratio = 0;
   text(nf(ratio, 0, 0) + '%', 80, 60);
 
+  // draw a ship for each life
+  var x = 90
+  var y = 85
+  for (i = 1; i <= lives; i++) {
+    push();
+    translate(x, y);
+    scale(0.5);
+    ship.draw();
+    pop();
+    x += 20;
+  }
+
   // animate the asteroids
   for (var i = 0; i < asteroids.length; i++) {
     // ship collided with an asteroid
     if (ship.hits(asteroids[i])) {
-      console.log('OOOP!');
+      if (lives > 1) {
+        lives--;
+        ship = new Ship();
+        break;
+      } else {
+        gameOver();
+      }
     }
     asteroids[i].render();
     asteroids[i].update();
@@ -105,19 +125,41 @@ function draw() {
   ship.update();
   ship.edges();
 
-  //
+  // start a new level
   if (asteroids.length === 0) {
     newLevel();
   }
+}
+
+// game over
+function gameOver() {
+  // interrupt the main game loop
+  noLoop()
+
+  // remove game elements
+  ship = null;
+  lasers = [];
+  asteroids = [];
+
+  // draw GAME OVER
+  push()
+  fill(255);
+  noStroke();
+  textSize(48);
+  textStyle(NORMAL);
+  textAlign(CENTER);
+  text('GAME OVER', width * 0.5, height * 0.5);
+  pop();
 }
 
 // initate a new game
 function initGame() {
   // setup score and hi-score
   score = 0;
-  if (score > hiscore) {
-    hiscore = score;
-  }
+  updateHiScore();
+
+  // every games starts with 5 lives
+  lives = 5;
 
   // create new level
   newLevel()
@@ -159,5 +201,11 @@ function newLevel() {
   asteroids = [];
   for (var i = 0; i < 5; i++) {
     asteroids.push(new Asteroid());
+  }
+}
+
+function updateHiScore() {
+  if (score > hiscore) {
+    hiscore = score;
   }
 }
