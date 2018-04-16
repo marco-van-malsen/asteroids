@@ -34,8 +34,8 @@ function draw() {
   background(0);
 
   // draw the score
-  noFill();
-  stroke(255);
+  fill(255);
+  noStroke();
   textSize(14);
   textStyle(NORMAL);
 
