@@ -60,11 +60,10 @@ function draw() {
   }
 
   // check if any laser hits any asteroid
-  for (var i = lasers.length - 1; i >= 0; i--) {
+  for (let i = lasers.length - 1; i >= 0; i--) {
     // show the laser
     lasers[i].render();
     lasers[i].update();
-    // lasers[i].edges();
 
     // remove laser when it leaves the scren
     if (lasers[i].offscreen()) {
@@ -113,7 +112,7 @@ function draw() {
 // game over
 function gameOver() {
   // interrupt the main game loop
-  noLoop()
+  noLoop();
 
   // remove game elements
   ship = null;
@@ -121,7 +120,7 @@ function gameOver() {
   asteroids = [];
 
   // draw GAME OVER
-  push()
+  push();
   fill(255);
   noStroke();
   textSize(48);
@@ -140,7 +139,7 @@ function initGame() {
   lives = 5;
 
   // create new level
-  newLevel()
+  newLevel();
 }
 
 // what happens when player presses a key
@@ -148,12 +147,15 @@ function keyPressed() {
   // SPACEBAR; add laser
   if (key == ' ') {
     lasers.push(new Laser(ship.pos, ship.heading));
+
     // RIGHT ARROW; turn player clock wise
   } else if (keyCode == RIGHT_ARROW) {
     ship.setRotation(0.1);
+
     // LEFT ARROW; turn player counter clock wise
   } else if (keyCode == LEFT_ARROW) {
     ship.setRotation(-0.1);
+
     // UP ARROW; move forward
   } else if (keyCode == UP_ARROW) {
     ship.boosting(true);

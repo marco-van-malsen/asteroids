@@ -10,21 +10,6 @@ class Laser {
     lasers.total += 1;
   }
 
-  // asteroids will wrap-around the screen
-  edges() {
-    if (this.pos.x > width) {
-      this.pos.x = 0;
-    } else if (this.pos.x < 0) {
-      this.pos.x = width;
-    }
-
-    if (this.pos.y > height) {
-      this.pos.y = 0;
-    } else if (this.pos.y < 0) {
-      this.pos.y = height;
-    }
-  }
-
   // check if the laser hits an asteroid
   hits(asteroid) {
     var d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
