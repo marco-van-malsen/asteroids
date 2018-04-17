@@ -36,7 +36,7 @@ function draw() {
   background(0);
 
   // draw the score
-  updateInfo();
+  drawGameStats();
 
   // draw the Atari Copyright
   drawAtariCopyright();
@@ -55,7 +55,7 @@ function draw() {
       if (lives > 0) {
         ship = new Ship();
       } else {
-        updateInfo();
+        drawGameStats();
         gameOver();
         break;
       }
@@ -126,13 +126,49 @@ function drawAtariCopyright() {
   pop();
 }
 
-// draw the Asterodsds game title
+// draw game statistics
+function drawGameStats() {
+  push();
+  fill(255);
+  noStroke();
+  textSize(18);
+  textFont('Courier');
+
+  textAlign(RIGHT);
+  text('Score:', 105, 20);
+  text('Hi-Score:', 105, 40);
+  text('Ratio:', 105, 60);
+  text('Lives:', 105, 90);
+
+  textAlign(LEFT);
+  text(score, 110, 20);
+  text(hiscore, 110, 40);
+  var ratio = round(lasers.hits / lasers.total * 100);
+  if (!ratio) ratio = 0;
+  text(nf(ratio, 0, 0) + '%', 110, 60);
+
+  // draw a ship for each life
+  var x = 115;
+  var y = 82;
+  for (i = 1; i <= lives; i++) {
+    push();
+    translate(x, y);
+    scale(0.5);
+    ship.draw();
+    pop();
+    x += 20;
+  }
+
+  pop();
+}
+
+// draw the Asteroids game title
 function drawGameTitle() {
   push();
   textAlign(CENTER);
   textFont(myFont);
   textSize(64);
-  text('ASTEROIDS', width / 2, height / 2);
+  text('ASTEROIDS', width * 0.5, height * 0.5);
   textSize(32);
   text('PRESS SPACE TO START', width * 0.5, height * 0.5 + 48);
   pop();
@@ -151,8 +187,10 @@ function gameOver() {
 
 // initate a new game
 function initGame() {
-  // setup score and hi-score
+  // reset score
   score = 0;
+
+  // update hi-score
   if (score > hiscore) {
     hiscore = score;
   }
@@ -176,20 +214,16 @@ function keyPressed() {
     }
 
     // RIGHT ARROW; turn player clock wise
-  } else if (keyCode == RIGHT_ARROW) {
+  } else if (keyCode === RIGHT_ARROW) {
     ship.setRotation(0.1);
 
     // LEFT ARROW; turn player counter clock wise
-  } else if (keyCode == LEFT_ARROW) {
+  } else if (keyCode === LEFT_ARROW) {
     ship.setRotation(-0.1);
 
     // UP ARROW; move forward
-  } else if (keyCode == UP_ARROW) {
+  } else if (keyCode === UP_ARROW) {
     ship.boosting(true);
-
-    // UP ARROW; move forward
-  } else if (key == 'r' || key == 'R') {
-    gameStarted = true;
   }
 }
 
@@ -213,39 +247,4 @@ function newLevel() {
   for (var i = 0; i < 5; i++) {
     asteroids.push(new Asteroid());
   }
-}
-
-// update game info
-function updateInfo() {
-  push();
-  fill(255);
-  noStroke();
-  textSize(18);
-  textFont('Courier');
-
-  textAlign(RIGHT);
-  text('Score:', 105, 20);
-  text('Hi-Score:', 105, 40);
-  text('Ratio:', 105, 60);
-  text('Lives:', 105, 90);
-
-  textAlign(LEFT);
-  text(score, 110, 20);
-  text(hiscore, 110, 40);
-  var ratio = int(lasers.hits / lasers.total * 100);
-  if (!ratio) ratio = 0;
-  text(nf(ratio, 0, 0) + '%', 110, 60);
-
-  // draw a ship for each life
-  var x = 115;
-  var y = 82;
-  for (i = 1; i <= lives; i++) {
-    push();
-    translate(x, y);
-    scale(0.5);
-    ship.draw();
-    pop();
-    x += 20;
-  }
-  pop();
 }
