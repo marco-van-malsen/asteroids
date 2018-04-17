@@ -172,6 +172,11 @@ function gameOver() {
   // pause game loop
   gameStarted = false;
 
+  // update hi-score
+  if (score > hiscore) {
+    hiscore = score;
+  }
+
   // remove game elements
   ship = null;
   lasers = [];
@@ -180,14 +185,6 @@ function gameOver() {
 
 // initate a new game
 function initGame() {
-  // reset score
-  score = 0;
-
-  // update hi-score
-  if (score > hiscore) {
-    hiscore = score;
-  }
-
   // every games starts with 5 lives
   lives = 5;
 
@@ -227,6 +224,9 @@ function keyReleased() {
 }
 
 function newLevel() {
+  // reset score
+  score = 0;
+
   // add a new ship
   ship = new Ship();
 
