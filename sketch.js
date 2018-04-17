@@ -118,17 +118,14 @@ function draw() {
 
 // draw the Atari copyright
 function drawAtariCopyright() {
-  push();
   textSize(20);
   textAlign(CENTER);
   textFont(myFont);
   text('\u00A91979 ATARI INC', width / 2, height - 20);
-  pop();
 }
 
 // draw game statistics
 function drawGameStats() {
-  push();
   fill(255);
   noStroke();
   textSize(18);
@@ -158,20 +155,16 @@ function drawGameStats() {
     pop();
     x += 20;
   }
-
-  pop();
 }
 
 // draw the Asteroids game title
 function drawGameTitle() {
-  push();
   textAlign(CENTER);
   textFont(myFont);
   textSize(64);
   text('ASTEROIDS', width * 0.5, height * 0.5);
   textSize(32);
   text('PRESS SPACE TO START', width * 0.5, height * 0.5 + 48);
-  pop();
 }
 
 // game over
