@@ -4,6 +4,7 @@
 
 // define playing elements
 var asteroids;
+var gameStarted;
 var hiscore;
 var lasers;
 var lives;
@@ -12,10 +13,9 @@ var score;
 var ship;
 
 // pre load stuff
-// function preload() {
-// myfont = loadFont('assets/HyperspaceBold.otf');
-// myfont = loadFont('assets/VectorBattle.ttf');
-// }
+function preload() {
+  myFont = loadFont('assets/HyperspaceBold.otf');
+}
 
 function setup() {
   // create canvas at full window size
@@ -24,11 +24,8 @@ function setup() {
   // initialize hi-score
   hiscore = 0;
 
-  // set the font to be user throughout the game
-  if (myfont) {
-    // textFont(myfont);
-    // textStyle(BOLD);
-  }
+  // every games starts with 5 lives
+  gameStarted = false;
 
   // initiate a new game
   initGame();
@@ -40,6 +37,15 @@ function draw() {
 
   // draw the score
   updateInfo();
+
+  // draw the Atari Copyright
+  drawAtariCopyright();
+
+  // Wait for player to start the game
+  if (!gameStarted) {
+    drawGameTitle();
+    return;
+  }
 
   // animate the asteroids
   for (var i = 0; i < asteroids.length; i++) {
@@ -110,31 +116,46 @@ function draw() {
   }
 }
 
+// draw the Atari copyright
+function drawAtariCopyright() {
+  push();
+  textSize(20);
+  textAlign(CENTER);
+  textFont(myFont);
+  text('\u00A91979 ATARI INC', width / 2, height - 20);
+  pop();
+}
+
+// draw the Asterodsds game title
+function drawGameTitle() {
+  push();
+  textAlign(CENTER);
+  textFont(myFont);
+  textSize(64);
+  text('ASTEROIDS', width / 2, height / 2);
+  textSize(32);
+  text('PRESS SPACE TO START', width * 0.5, height * 0.5 + 48);
+  pop();
+}
+
 // game over
 function gameOver() {
-  // interrupt the main game loop
-  noLoop();
+  // pause game loop
+  gameStarted = false;
 
   // remove game elements
   ship = null;
   lasers = [];
   asteroids = [];
-
-  // draw GAME OVER
-  push();
-  fill(255);
-  noStroke();
-  textSize(48);
-  textAlign(CENTER);
-  text('GAME OVER', width * 0.5, height * 0.5);
-  pop();
 }
 
 // initate a new game
 function initGame() {
   // setup score and hi-score
   score = 0;
-  updateHiScore();
+  if (score > hiscore) {
+    hiscore = score;
+  }
 
   // every games starts with 5 lives
   lives = 5;
@@ -147,7 +168,12 @@ function initGame() {
 function keyPressed() {
   // SPACEBAR; add laser
   if (key == ' ') {
-    lasers.push(new Laser(ship.pos, ship.heading));
+    if (gameStarted) {
+      lasers.push(new Laser(ship.pos, ship.heading));
+    } else {
+      gameStarted = true;
+      return;
+    }
 
     // RIGHT ARROW; turn player clock wise
   } else if (keyCode == RIGHT_ARROW) {
@@ -160,6 +186,10 @@ function keyPressed() {
     // UP ARROW; move forward
   } else if (keyCode == UP_ARROW) {
     ship.boosting(true);
+
+    // UP ARROW; move forward
+  } else if (key == 'r' || key == 'R') {
+    gameStarted = true;
   }
 }
 
@@ -187,9 +217,11 @@ function newLevel() {
 
 // update game info
 function updateInfo() {
+  push();
   fill(255);
   noStroke();
   textSize(18);
+  textFont('Courier');
 
   textAlign(RIGHT);
   text('Score:', 105, 20);
@@ -215,15 +247,5 @@ function updateInfo() {
     pop();
     x += 20;
   }
-
-  // draw the Atari copyright
-  textSize(20);
-  textAlign(CENTER);
-  text('\u00A91979 ATARI INC', width / 2, height - 20);
-}
-
-function updateHiScore() {
-  if (score > hiscore) {
-    hiscore = score;
-  }
+  pop();
 }
