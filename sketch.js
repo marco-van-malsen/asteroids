@@ -12,9 +12,10 @@ var score;
 var ship;
 
 // pre load stuff
-function preload() {
-  myfont = loadFont('assets/HyperspaceBold.otf');
-}
+// function preload() {
+// myfont = loadFont('assets/HyperspaceBold.otf');
+// myfont = loadFont('assets/VectorBattle.ttf');
+// }
 
 function setup() {
   // create canvas at full window size
@@ -25,8 +26,8 @@ function setup() {
 
   // set the font to be user throughout the game
   if (myfont) {
-    textFont(myfont);
-    textStyle(BOLD);
+    // textFont(myfont);
+    // textStyle(BOLD);
   }
 
   // initiate a new game
