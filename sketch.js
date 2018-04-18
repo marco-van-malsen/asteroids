@@ -112,7 +112,7 @@ function draw() {
 
   // start a new level
   if (asteroids.length === 0) {
-    newLevel();
+    initGame();
   }
 }
 
@@ -185,11 +185,25 @@ function gameOver() {
 
 // initate a new game
 function initGame() {
+  // reset score
+  score = 0;
+
   // every games starts with 5 lives
   lives = 5;
 
-  // create new level
-  newLevel();
+  // add a new ship
+  ship = new Ship();
+
+  // create lasers
+  lasers = [];
+  lasers.hits = 0;
+  lasers.total = 0;
+
+  // create new asteroids
+  asteroids = [];
+  for (var i = 0; i < 5; i++) {
+    asteroids.push(new Asteroid());
+  }
 }
 
 // what happens when player presses a key
@@ -221,23 +235,4 @@ function keyPressed() {
 function keyReleased() {
   ship.setRotation(0);
   ship.boosting(false);
-}
-
-function newLevel() {
-  // reset score
-  score = 0;
-
-  // add a new ship
-  ship = new Ship();
-
-  // create lasers
-  lasers = [];
-  lasers.hits = 0;
-  lasers.total = 0;
-
-  // create new asteroids
-  asteroids = [];
-  for (var i = 0; i < 5; i++) {
-    asteroids.push(new Asteroid());
-  }
 }
