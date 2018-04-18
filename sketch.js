@@ -121,31 +121,31 @@ function drawAtariCopyright() {
   textSize(20);
   textAlign(CENTER);
   textFont(myFont);
-  text('\u00A91979 ATARI INC', width / 2, height - 20);
+  text('INSPIRED BY \u00A91979 ATARI INC', width / 2, height - 20);
 }
 
 // draw game statistics
 function drawGameStats() {
   fill(255);
   noStroke();
-  textSize(18);
-  textFont('Courier');
+  textSize(20);
+  textFont(myFont);
 
   textAlign(RIGHT);
-  text('Score:', 105, 20);
-  text('Hi-Score:', 105, 40);
-  text('Ratio:', 105, 60);
-  text('Lives:', 105, 90);
+  text('Score:', 115, 20);
+  text('Hi-Score:', 115, 40);
+  text('Ratio:', 115, 60);
+  text('Lives:', 115, 90);
 
   textAlign(LEFT);
-  text(score, 110, 20);
-  text(hiscore, 110, 40);
+  text(score, 120, 20);
+  text(hiscore, 120, 40);
   var ratio = round(lasers.hits / lasers.total * 100);
   if (!ratio) ratio = 0;
-  text(nf(ratio, 0, 0) + '%', 110, 60);
+  text(nf(ratio, 0, 0) + '%', 120, 60);
 
   // draw a ship for each life
-  var x = 115;
+  var x = 125;
   var y = 82;
   for (i = 1; i <= lives; i++) {
     push();
