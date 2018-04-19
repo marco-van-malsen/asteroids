@@ -9,6 +9,7 @@ var hiscore;
 var lasers;
 var lives;
 var myfont;
+var numAsteroids;
 var score;
 var ship;
 
@@ -23,6 +24,12 @@ function setup() {
 
   // initialize hi-score
   hiscore = 0;
+
+  // every game starts with 5 asteroids; inceases by one after avery level
+  numAsteroids = 5;
+
+  // every game starts with 5 lives; increases by one after every level
+  lives = 5;
 
   // every games starts with 5 lives
   gameStarted = false;
@@ -111,7 +118,10 @@ function draw() {
   }
 
   // start a new level
+  // user gets a new life afeter every level
   if (asteroids.length === 0) {
+    lives++;
+    numAsteroids++;
     initGame();
   }
 }
@@ -188,9 +198,6 @@ function initGame() {
   // reset score
   score = 0;
 
-  // every games starts with 5 lives
-  lives = 5;
-
   // add a new ship
   ship = new Ship();
 
@@ -201,7 +208,7 @@ function initGame() {
 
   // create new asteroids
   asteroids = [];
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < numAsteroids; i++) {
     asteroids.push(new Asteroid());
   }
 }

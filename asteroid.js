@@ -14,7 +14,7 @@ class Asteroid {
 
     // asteroid starts as LARGE
     // a laser hit breaks of the asteroid in two smaller pieces
-    // LARGE to MEDIUM to SMALL to DESTOYED
+    // LARGE to MEDIUM to SMALL to DESTROYED
     if (size === 'SMALL') {
       this.size = 'DESTROYED';
     } else if (size === 'MEDIUM') {
