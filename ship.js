@@ -25,16 +25,22 @@ class Ship {
   }
 
   // draw the ship
-  draw() {
+  draw(player) {
     fill(0);
     stroke(255);
     beginShape();
-    vertex(0, -20); // the nose
-    vertex(15, 20); // lower right tip
-    vertex(12, 15);
-    vertex(-12, 15);
-    vertex(-15, 20); // lower left tip
+    vertex(0, -22.5); // the nose
+    vertex(15, 22.5); // lower right tip
+    vertex(12.5, 15);
+    vertex(-12.5, 15);
+    vertex(-15, 22.5); // lower left tip
     endShape(CLOSE);
+
+    // draw exhaust
+    if (player && this.isBoosting) {
+      line(-5, 15, 0, 25);
+      line(0, 25, 5, 15);
+    }
   }
 
   // if the ship leaves the screen it will appear on the opposite side
@@ -66,7 +72,7 @@ class Ship {
     push();
     translate(this.pos.x, this.pos.y);
     rotate(this.heading + PI / 2);
-    this.draw();
+    this.draw('player');
     pop();
   }
 
