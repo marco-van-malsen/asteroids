@@ -235,6 +235,10 @@ function keyPressed() {
     // UP ARROW; move forward
   } else if (keyCode === UP_ARROW) {
     ship.boosting(true);
+
+    // P-key; pause or unpause game
+    // } else if (key === 'P') {
+    // pauseGame();
   }
 }
 
@@ -242,4 +246,8 @@ function keyPressed() {
 function keyReleased() {
   ship.setRotation(0);
   ship.boosting(false);
+}
+
+function pauseGame() {
+  noLoop();
 }
