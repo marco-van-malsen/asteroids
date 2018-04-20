@@ -38,8 +38,10 @@ class Ship {
 
     // draw exhaust
     if (player && this.isBoosting) {
-      line(-5, 15, 0, 25);
-      line(0, 25, 5, 15);
+      fill(255);
+      triangle(-5, 15, 0, 25, 5, 15);
+      noFill();
+      triangle(-10, 15, 0, 35, 10, 15);
     }
   }
 
