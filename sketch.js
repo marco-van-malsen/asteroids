@@ -251,3 +251,7 @@ function keyReleased() {
 function pauseGame() {
   noLoop();
 }
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
