@@ -33,13 +33,27 @@ class Laser {
 
   // check if laser left the screen
   offscreen() {
-    if (this.pos.x > width || this.pos.x < 0) {
-      return true;
+    // cheats enabled; laser wraps around the playing area
+    if (cheats) {
+      if (this.pos.x > width) {
+        this.pos.x = 0;
+      } else if (this.pos.x < 0) {
+        this.pos.x = width;
+      }
+
+      if (this.pos.y > height) {
+        this.pos.y = 0;
+      } else if (this.pos.y < 0) {
+        this.pos.y = height;
+      }
+
+      // the laser does not leave the screen
+      return false;
+
+      // normal game play; return if laser left the screen or not
+    } else {
+      return (this.pos.x > width || this.pos.x < 0 || this.pos.y > height || this.pos.y < 0);
     }
-    if (this.pos.y > height || this.pos.y < 0) {
-      return true;
-    }
-    return false;
   }
 
   // show the laser
