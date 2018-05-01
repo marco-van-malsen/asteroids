@@ -2,6 +2,7 @@
 // Original: Daniel Shiffman
 // Extended: Marco van Malsen
 
+// setup constants to keep track of game state
 const GAME_NOT_STARTED = 0;
 const GAME_STARTED = 1;
 const GAME_PAUSED = 2;
@@ -10,6 +11,7 @@ const GAME_OVER = 4;
 
 // define playing elements
 var asteroids = []; // array with asteroids
+var cheats = false; // enable cheats
 var explosions = []; // array with explosions (asteroid)
 var fps = 0; // current framerate (take with 1 second interval)
 var gameState = GAME_NOT_STARTED; // boolean keep track if game has been started
@@ -21,11 +23,12 @@ var numAsteroids = 5; // total number of asteroids at beginning of the game
 var score = 0; // score of current game
 var ship = null; // the player
 
-// pre load stuff
+// pre load required assets (fonts, sounds, images)
 function preload() {
   myFont = loadFont('assets/HyperspaceBold.otf');
 }
 
+// runs once when started (eg. F5)
 function setup() {
   // create canvas at full window size
   createCanvas(windowWidth, windowHeight);
@@ -37,6 +40,7 @@ function setup() {
   newGame();
 }
 
+// loops every frame
 function draw() {
   // space is a dark place
   background(0);
@@ -73,16 +77,9 @@ function draw() {
 
   // start a new level
   if (asteroids.length === 0) {
-    // player gets an extra life
-    lives++;
-
-    // add one more asteroid
-    numAsteroids++;
-
-    // start a new level
-    newLevel();
-
-    // pause the game
-    gameState = GAME_PAUSED;
+    lives++; // player gets an extra life
+    numAsteroids++; // add one more asteroid
+    newLevel(); // start a new level
+    gameState = GAME_PAUSED; // pause the game
   }
 }

@@ -7,15 +7,25 @@ class Laser {
     this.pos = createVector(spos.x, spos.y);
     this.vel = p5.Vector.fromAngle(angle);
     this.vel.mult(15);
+    if (cheats) this.vel.mult(3);
     lasers.total += 1;
   }
 
   // check if the laser hits an asteroid
   hits(asteroid) {
     var d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
+
+    // normal game play; laser must hit asteroid
     if (d < asteroid.r) {
       lasers.hits += 1;
       return true;
+
+      // cheating enabled; laser must come close to asteroid
+    } else if (cheats && d < asteroid.r * 2) {
+      lasers.hits += 1;
+      return true;
+
+      // laser missed
     } else {
       return false;
     }

@@ -9,11 +9,7 @@ class Explosion {
     this.type = type;
 
     // # of partickes for ship or asteroid
-    if (this.type === 'ship') {
-      this.particleCount = 200;
-    } else {
-      this.particleCount = 50;
-    }
+    this.particleCount = (this.type === 'ship' ? 150 : 50);
 
     // add particles
     for (let p = 0; p < this.particleCount; p++) {
@@ -29,8 +25,8 @@ class Explosion {
     }
   }
 
-  // update explosion; reduce lifespan
-  // particles will be removed when lifespan has ended (value is zero)
+  // update explosion
+  // particles will be removed when lifespan drops below zero
   update() {
     for (let p = this.particles.length - 1; p >= 0; p--) {
       this.particles[p].update();

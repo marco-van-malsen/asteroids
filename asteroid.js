@@ -98,16 +98,20 @@ function createAsteroids() {
   // reset array
   asteroids = [];
 
+  // calculate zone where asteroids cannot be placed
+  var dmzH = width / 4;
+  var dmzV = height / 4;
+
   // add asteroids
   var asteroid;
   for (var i = 0; i < numAsteroids; i++) {
     // create a new asteroid
     asteroid = new Asteroid();
 
-    // do not place asteroids near the ship
-    if (asteroid.pos.x < width * 0.5 - 100 || asteroid.pos.x > width * 0.5 + 100 ||
-      asteroid.pos.y < height * 0.5 - 100 || asteroid.pos.y > height * 0.5 + 100) {
-      asteroids.push(new Asteroid());
+    // do not place asteroids in DMZ
+    if (asteroid.pos.x < width * 0.5 - dmzH || asteroid.pos.x > width * 0.5 + dmzH ||
+      asteroid.pos.y < height * 0.5 - dmzV || asteroid.pos.y > height * 0.5 + dmzV) {
+      asteroids.push(asteroid);
     } else {
       i--;
     }

@@ -31,14 +31,19 @@ function checkLaserAsteroid() {
         // remove asteroid and laser
         asteroids.splice(a, 1);
         lasers.splice(l, 1);
+
+        // do not check anything else
         break;
       }
     }
   }
 }
 
-// check if laser hit asteroids
+// check if ship collided with an asteroid
 function checkShipAsteroid() {
+  // cheats enabled; ship cannot be destroyed
+  if (cheats) return;
+
   // check if player hits an asteroids
   for (let a = 0; a < asteroids.length; a++) {
     // ship collided with an asteroid
@@ -69,11 +74,11 @@ function drawGameStats() {
   textSize(20);
 
   textAlign(RIGHT, CENTER);
-  text('Score:', 115, 10);
-  text('Hi-Score:', 115, 30);
-  text('Ratio:', 115, 50);
+  text('SCORE:', 115, 10);
+  text('HI-SCORE:', 115, 30);
+  text('RATIO:', 115, 50);
   text('FPS:', 115, 70);
-  text('Lives:', 115, 90);
+  text('LIVES:', 115, 90);
 
   textAlign(LEFT);
   text(score, 120, 10);
@@ -176,10 +181,15 @@ function keyPressed() {
   } else if (keyCode === UP_ARROW) {
     ship.boosting(true);
 
-    // P-key; pause or unpause game
+    // C-key; continue a paused game
   } else if (key === 'C') {
     if (gameState === GAME_PAUSED) gameState = GAME_STARTED;
 
+    // M-key; enable or disable cheats
+  } else if (key === 'M' && gameState === GAME_STARTED) {
+    cheats = !cheats;
+
+    // P-key; pause the game
   } else if (key === 'P') {
     if (gameState === GAME_STARTED) gameState = GAME_PAUSED;
   }
