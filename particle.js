@@ -5,17 +5,18 @@
 class Particle {
   constructor(pos, type) {
     this.pos = pos.copy();
-    this.lifespan = (type === 'ship' ? 200 : 100);
+    this.lifespan = 255;
     this.vel = p5.Vector.random2D();
     this.vel.mult(random(1, 2));
     this.type = type;
-
-    // color
     if (this.type === 'ship') {
-      this.color = color(floor(random(256)), floor(random(256)), floor(random(256)), this.lifespan);
-      // white
+      this.r = floor(random(256));
+      this.g = floor(random(256));
+      this.b = floor(random(256));
     } else {
-      this.color = color(255, this.lifespan);
+      this.r = 255;
+      this.g = 255;
+      this.b = 255;
     }
   }
 
@@ -23,14 +24,14 @@ class Particle {
   show() {
     push();
     strokeWeight(2);
-    stroke(this.color);
+    stroke(this.r, this.g, this.b, this.lifespan);
     point(this.pos.x, this.pos.y);
     pop();
   }
 
   // update particle position and lifespan
   update() {
-    this.lifespan -= 20;
+    this.lifespan -= 5;
     this.pos.add(this.vel);
   }
 }

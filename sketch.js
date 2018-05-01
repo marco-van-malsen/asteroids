@@ -65,14 +65,14 @@ function draw() {
 
     // show explosion
     explosions[x].update();
-    explosions[x].show();
 
     // remove explosions when finished
-    if (explosions[x].particles.length <= 0) explosions.splice(x, 1);
+    if (explosions[x].particles.length > 0) {
+      explosions[x].show();
+    } else {
+      explosions.splice(x, 1);
+    }
   }
-
-  // wait for ship explision to finish
-  if (shipExploded) return;
 
   // animate the asteroids
   for (let a = 0; a < asteroids.length; a++) {
@@ -94,6 +94,9 @@ function draw() {
     asteroids[a].update();
     asteroids[a].edges();
   }
+
+  // wait for ship explision to finish
+  if (shipExploded) return;
 
   // check if any laser hits any asteroid
   for (let l = lasers.length - 1; l >= 0; l--) {
