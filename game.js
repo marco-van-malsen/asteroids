@@ -16,36 +16,39 @@ function drawGameStats() {
   textSize(20);
 
   textAlign(RIGHT, CENTER);
-  text('Score:', 115, 20);
-  text('Hi-Score:', 115, 40);
-  text('Ratio:', 115, 60);
+  text('Score:', 115, 10);
+  text('Hi-Score:', 115, 30);
+  text('Ratio:', 115, 50);
+  text('FPS:', 115, 70);
   text('Lives:', 115, 90);
 
   textAlign(LEFT);
-  text(score, 120, 20);
-  text(hiscore, 120, 40);
+  text(score, 120, 10);
+  text(hiscore, 120, 30);
+  if (frameCount % 60 === 1) fps = floor(frameRate());
+  text(fps, 120, 70);
 
   // draw hit mis ratio
   push();
   noFill();
   stroke(255);
-  rect(120, 52, 100, 20);
+  rect(120, 42, 100, 20);
 
   var ratio = round(lasers.hits / lasers.total * 100);
   ratio = nf(ratio, 0, 0);
   if (ratio > 0) {
     fill(255, 100);
     noStroke();
-    rect(120, 52, ratio, 20);
+    rect(120, 42, ratio, 20);
   }
   pop();
 
   // draw ratio text
-  if (ratio >= 0) text(ratio + '%', 230, 60);
+  if (ratio >= 0) text(ratio + '%', 230, 50);
 
   // draw a ship for each life
   var x = 125;
-  var y = 92;
+  var y = 97;
   for (i = 1; i <= lives; i++) {
     push();
     translate(x, y);
