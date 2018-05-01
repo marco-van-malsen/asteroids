@@ -37,12 +37,7 @@ class Ship {
     endShape(CLOSE);
 
     // draw exhaust
-    if (player && this.isBoosting) {
-      fill(255);
-      triangle(-5, 15, 0, 25, 5, 15);
-      noFill();
-      triangle(-10, 15, 0, 35, 10, 15);
-    }
+    if (player && this.isBoosting) triangle(-5, 15, 0, 25, 5, 15);
   }
 
   // if the ship leaves the screen it will appear on the opposite side
