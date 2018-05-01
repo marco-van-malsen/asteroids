@@ -46,3 +46,17 @@ class Laser {
     this.pos.add(this.vel);
   }
 }
+
+// draw the lasers
+function drawLasers() {
+  for (let l = lasers.length - 1; l >= 0; l--) {
+    // show the laser
+    lasers[l].render();
+    lasers[l].update();
+
+    // remove laser when it leaves the scren
+    if (lasers[l].offscreen()) {
+      lasers.splice(l, 1);
+    }
+  }
+}

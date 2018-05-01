@@ -92,3 +92,11 @@ class Ship {
     this.vel.mult(0.99);
   }
 }
+
+// draw the ship
+function drawShip() {
+  ship.turn();
+  ship.update();
+  ship.edges();
+  ship.render();
+}

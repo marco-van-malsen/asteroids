@@ -2,6 +2,59 @@
 // Original: Daniel Shiffman
 // Extended: Marco van Malsen
 
+// check if laser hit asteroids
+function checkLaserAsteroid() {
+  // check all lasers
+  for (let l = lasers.length - 1; l >= 0; l--) {
+    // check all asteroids
+    for (let a = asteroids.length - 1; a >= 0; a--) {
+      // a laser hit an asteroid
+      if (lasers[l].hits(asteroids[a])) {
+        // increase score
+        if (asteroids.size === 'SMALL') {
+          score += 50;
+        } else if (asteroids[a].size === 'MEDIUM') {
+          score += 20;
+        } else {
+          score += 10;
+        }
+
+        // add an explosion
+        explosions.push(new Explosion(asteroids[a].pos, 'asteroid'));
+
+        // add two new asteroids
+        if (asteroids[a].size != 'SMALL') {
+          var newAsteroids = asteroids[a].breakup();
+          asteroids = asteroids.concat(newAsteroids);
+        }
+
+        // remove asteroid and laser
+        asteroids.splice(a, 1);
+        lasers.splice(l, 1);
+        break;
+      }
+    }
+  }
+}
+
+// check if laser hit asteroids
+function checkShipAsteroid() {
+  // check if player hits an asteroids
+  for (let a = 0; a < asteroids.length; a++) {
+    // ship collided with an asteroid
+    if (ship.hits(asteroids[a])) {
+      // change game state
+      gameState = GAME_SHIP_DESTROYED;
+
+      // add explosion
+      explosions.push(new Explosion(ship.pos, 'ship'));
+
+      // do not check anything else
+      break;
+    }
+  }
+}
+
 // draw the Atari copyright
 function drawAtariCopyright() {
   textSize(20);
@@ -61,17 +114,35 @@ function drawGameStats() {
 
 // draw the Asteroids game title
 function drawGameTitle() {
+  // set text alignment
   textAlign(CENTER, CENTER);
+
+  // draw game title
   textSize(64);
   text('ASTEROIDS', width * 0.5, height * 0.5);
-  textSize(32);
 
+  // draw instructions
   if (gameState === GAME_PAUSED) {
-    myText = 'PRESS P TO CONTINUE';
+    myText = 'PRESS C TO CONTINUE';
   } else {
     myText = 'PRESS SPACE TO START';
   }
-  text(myText, width * 0.5, height * 0.5 + 48);
+  textSize(32);
+  text(myText, width * 0.5, height * 0.5 + textSize() * 2);
+}
+
+// player lost a life
+function gameMinusOne() {
+  // reduce number of lives
+  lives--;
+
+  if (lives > 0) {
+    gameState = GAME_STARTED;
+    newLevel();
+  } else {
+    gameOver();
+    newGame();
+  }
 }
 
 // game over
@@ -81,53 +152,6 @@ function gameOver() {
 
   // update hi-score
   if (score > hiscore) hiscore = score;
-
-  // remove game elements
-  ship = null;
-  lasers = [];
-  asteroids = [];
-}
-
-// initate a new game
-function initGame() {
-  // every game starts with 5 lives; increases by one after every level
-  lives = 5;
-
-  // every game starts with 5 asteroids; inceases by one after avery level
-  numAsteroids = 5;
-
-  // reset score
-  score = 0;
-
-  // start new initLevel
-  initLevel();
-}
-
-function initLevel() {
-  // array with explosions
-  explosions = [];
-
-  // add a new ship
-  ship = new Ship();
-
-  // create lasers
-  lasers = [];
-  lasers.hits = 0;
-  lasers.total = 0;
-
-  // create new asteroids
-  asteroids = [];
-  for (var i = 0; i < numAsteroids; i++) {
-    asteroid = new Asteroid();
-
-    // do not place asteroids near the ship
-    if (asteroid.pos.x < width * 0.5 - 100 || asteroid.pos.x > width * 0.5 + 100 ||
-      asteroid.pos.y < height * 0.5 - 100 || asteroid.pos.y > height * 0.5 + 100) {
-      asteroids.push(new Asteroid());
-    } else {
-      i--;
-    }
-  }
 }
 
 // what happens when player presses a key
@@ -153,9 +177,11 @@ function keyPressed() {
     ship.boosting(true);
 
     // P-key; pause or unpause game
+  } else if (key === 'C') {
+    if (gameState === GAME_PAUSED) gameState = GAME_STARTED;
+
   } else if (key === 'P') {
-    if (gameState === GAME_NOT_STARTED || gameState === GAME_OVER) return;
-    gameState = (gameState === GAME_PAUSED ? GAME_STARTED : GAME_PAUSED);
+    if (gameState === GAME_STARTED) gameState = GAME_PAUSED;
   }
 }
 
@@ -165,10 +191,39 @@ function keyReleased() {
   ship.boosting(false);
 }
 
-function pauseGame() {
-  noLoop();
+// create a new game
+function newGame() {
+  // every game starts with 5 lives; increases by one after every level
+  lives = 3;
+
+  // every game starts with 5 asteroids; inceases by one after avery level
+  numAsteroids = 5;
+
+  // reset score
+  score = 0;
+
+  // start new initLevel
+  newLevel();
 }
 
+// create a new level
+function newLevel() {
+  // create new asteroids
+  createAsteroids();
+
+  // add a new ship
+  ship = new Ship();
+
+  // empty out the array with lasers; reset stats
+  lasers = [];
+  lasers.hits = 0;
+  lasers.total = 0;
+
+  // empty out the array with explosions
+  explosions = [];
+}
+
+// responsive UI
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }

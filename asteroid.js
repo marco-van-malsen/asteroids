@@ -92,3 +92,33 @@ class Asteroid {
     this.pos.add(this.vel);
   }
 }
+
+// create new ASTEROIDS
+function createAsteroids() {
+  // reset array
+  asteroids = [];
+
+  // add asteroids
+  var asteroid;
+  for (var i = 0; i < numAsteroids; i++) {
+    // create a new asteroid
+    asteroid = new Asteroid();
+
+    // do not place asteroids near the ship
+    if (asteroid.pos.x < width * 0.5 - 100 || asteroid.pos.x > width * 0.5 + 100 ||
+      asteroid.pos.y < height * 0.5 - 100 || asteroid.pos.y > height * 0.5 + 100) {
+      asteroids.push(new Asteroid());
+    } else {
+      i--;
+    }
+  }
+}
+
+// draw all asteroids
+function drawAsteroids() {
+  for (let a = 0; a < asteroids.length; a++) {
+    asteroids[a].render();
+    asteroids[a].update();
+    asteroids[a].edges();
+  }
+}

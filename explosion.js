@@ -10,7 +10,7 @@ class Explosion {
 
     // # of partickes for ship or asteroid
     if (this.type === 'ship') {
-      this.particleCount = 150;
+      this.particleCount = 200;
     } else {
       this.particleCount = 50;
     }
@@ -36,8 +36,24 @@ class Explosion {
       this.particles[p].update();
       if (this.particles[p].lifespan <= 0) {
         this.particles.splice(p, 1);
-        break;
       }
+    }
+  }
+}
+
+// draw explosions; remove when complete
+function drawExplosions() {
+  for (let x = explosions.length - 1; x >= 0; x--) {
+    // update explosion
+    explosions[x].update();
+
+    // show explosion or removed when complete
+    if (explosions[x].particles.length > 0) {
+      explosions[x].show();
+    } else {
+      // the explosion was from a ship
+      if (explosions[x].type === 'ship') gameMinusOne();
+      explosions.splice(x, 1);
     }
   }
 }

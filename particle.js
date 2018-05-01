@@ -31,7 +31,7 @@ class Particle {
 
   // update particle position and lifespan
   update() {
-    this.lifespan -= 5;
+    this.lifespan -= 4;
     this.pos.add(this.vel);
   }
 }
