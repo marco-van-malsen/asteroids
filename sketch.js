@@ -57,10 +57,29 @@ function draw() {
     return;
   }
 
+  // show explosions
+  var shipExploded = false;
+  for (let x = explosions.length - 1; x >= 0; x--) {
+    // check if ship has exploded
+    if (explosions[x].type === 'ship') shipExploded = true;
+
+    // show explosion
+    explosions[x].update();
+    explosions[x].show();
+
+    // remove explosions when finished
+    if (explosions[x].particles.length <= 0) explosions.splice(x, 1);
+  }
+
+  // wait for ship explision to finish
+  if (shipExploded) return;
+
   // animate the asteroids
   for (let a = 0; a < asteroids.length; a++) {
     // ship collided with an asteroid
     if (ship.hits(asteroids[a])) {
+      // show explosion
+      explosions.push(new Explosion(ship.pos, 'ship'));
       lives--;
       if (lives > 0) {
         ship = new Ship();
@@ -98,7 +117,7 @@ function draw() {
           }
 
           // show explosion
-          explosions.push(new Explosion(asteroids[a].pos, asteroids[a].vel, a));
+          explosions.push(new Explosion(asteroids[a].pos, 'asteroid'));
 
           // breakup asteroid
           if (asteroids[a].size != 'SMALL') {
@@ -123,21 +142,12 @@ function draw() {
     ship.edges();
   }
 
-  // show explosions
-  for (let x = explosions.length - 1; x >= 0; x--) {
-    explosions[x].update();
-    explosions[x].show();
-
-    // remove explosions when finished
-    if (explosions[x].particles.length <= 0) explosions.splice(x, 1);
-  }
-
   // start a new level
   // user gets a new life afeter every level
   if (asteroids.length === 0) {
     lives++;
     numAsteroids++;
-    initGame();
+    initLevel();
   }
 }
 
@@ -216,9 +226,7 @@ function gameOver() {
   gameState = GAME_OVER;
 
   // update hi-score
-  if (score > hiscore) {
-    hiscore = score;
-  }
+  if (score > hiscore) hiscore = score;
 
   // remove game elements
   ship = null;
@@ -228,9 +236,6 @@ function gameOver() {
 
 // initate a new game
 function initGame() {
-  // array with explosions
-  explosions = [];
-
   // every game starts with 5 lives; increases by one after every level
   lives = 5;
 
@@ -239,6 +244,14 @@ function initGame() {
 
   // reset score
   score = 0;
+
+  // start new initLevel
+  initLevel();
+}
+
+function initLevel() {
+  // array with explosions
+  explosions = [];
 
   // add a new ship
   ship = new Ship();
@@ -267,11 +280,11 @@ function keyPressed() {
 
     // RIGHT ARROW; turn player clock wise
   } else if (keyCode === RIGHT_ARROW) {
-    ship.setRotation(0.1);
+    ship.setRotation(0.05);
 
     // LEFT ARROW; turn player counter clock wise
   } else if (keyCode === LEFT_ARROW) {
-    ship.setRotation(-0.1);
+    ship.setRotation(-0.05);
 
     // UP ARROW; move forward
   } else if (keyCode === UP_ARROW) {

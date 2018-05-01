@@ -3,14 +3,21 @@
 // Extended: Marco van Malsen
 
 class Explosion {
-  constructor(pos) {
+  constructor(pos, type) {
     this.pos = pos.copy();
     this.particles = [];
-    this.particleCount = 50;
+    this.type = type;
+
+    // # of partickes for ship or asteroid
+    if (this.type === 'ship') {
+      this.particleCount = 150;
+    } else {
+      this.particleCount = 50;
+    }
 
     // add particles
     for (let p = 0; p < this.particleCount; p++) {
-      this.particles.push(new Particle(this.pos.x, this.pos.y));
+      this.particles.push(new Particle(this.pos, this.type));
     }
   }
 
