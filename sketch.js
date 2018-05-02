@@ -17,7 +17,7 @@ var fps = 0; // current framerate (take with 1 second interval)
 var gameState = GAME_NOT_STARTED; // boolean keep track if game has been started
 var hiscore = 0; // highest score since start
 var lasers = []; // array with all shots fired
-var lives = 5; // number of lives (left)
+var lives = 3; // number of lives (left)
 var myfont = ''; //5 font
 var numAsteroids = 5; // total number of asteroids at beginning of the game
 var score = 0; // score of current game
@@ -36,7 +36,7 @@ function setup() {
   // set text font
   textFont(myFont);
 
-  // initiate a new game
+  // start a new game
   newGame();
 }
 
@@ -45,13 +45,13 @@ function draw() {
   // space is a dark place
   background(0);
 
-  // draw the score
+  // draw the game stats
   drawGameStats();
 
   // draw the Atari Copyright
   drawAtariCopyright();
 
-  // Wait for player to start the game
+  // wait for player to start the game
   if (gameState !== GAME_STARTED && gameState !== GAME_SHIP_DESTROYED) {
     drawGameTitle();
     return;
@@ -72,10 +72,10 @@ function draw() {
   // check if a laser hit an asteroid
   checkLaserAsteroid();
 
-  // check if a laser hit an asteroid
+  // check if the ship hit an asteroid
   if (gameState !== GAME_SHIP_DESTROYED) checkShipAsteroid();
 
-  // start a new level
+  // start a new level when all asteroids are destroyed
   if (asteroids.length === 0) {
     lives++; // player gets an extra life
     numAsteroids++; // add one more asteroid
