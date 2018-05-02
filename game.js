@@ -44,7 +44,7 @@ function checkShipAsteroid() {
   // cheats enabled; ship cannot be destroyed
   if (cheats) return;
 
-  // check if player hits an asteroids
+  // check all asteroids
   for (let a = 0; a < asteroids.length; a++) {
     // ship collided with an asteroid
     if (ship.hits(asteroids[a])) {
@@ -80,7 +80,7 @@ function drawGameStats() {
   text('FPS:', 115, 70);
   text('LIVES:', 115, 90);
 
-  textAlign(LEFT);
+  textAlign(LEFT, CENTER);
   text(score, 120, 10);
   text(hiscore, 120, 30);
   if (frameCount % 60 === 0) fps = floor(frameRate());
