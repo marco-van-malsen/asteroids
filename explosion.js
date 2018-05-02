@@ -8,10 +8,10 @@ class Explosion {
     this.particles = [];
     this.type = type;
 
-    // # of partickes for ship or asteroid
+    // set number of particles for ship or asteroidq
     this.particleCount = (this.type === 'ship' ? 150 : 50);
 
-    // add particles
+    // create particles
     for (let p = 0; p < this.particleCount; p++) {
       this.particles.push(new Particle(this.pos, this.type));
     }
@@ -25,8 +25,7 @@ class Explosion {
     }
   }
 
-  // update explosion
-  // particles will be removed when lifespan drops below zero
+  // update explosion (remove when lifespan drops below zero)
   update() {
     for (let p = this.particles.length - 1; p >= 0; p--) {
       this.particles[p].update();
@@ -37,13 +36,13 @@ class Explosion {
   }
 }
 
-// draw explosions; remove when complete
+// draw explosions; remove when there a no more particles
 function drawExplosions() {
   for (let x = explosions.length - 1; x >= 0; x--) {
     // update explosion
     explosions[x].update();
 
-    // show explosion or removed when complete
+    // show explosion or remove when complete
     if (explosions[x].particles.length > 0) {
       explosions[x].show();
     } else {
