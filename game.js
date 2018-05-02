@@ -83,10 +83,10 @@ function drawGameStats() {
   textAlign(LEFT);
   text(score, 120, 10);
   text(hiscore, 120, 30);
-  if (frameCount % 60 === 1) fps = floor(frameRate());
+  if (frameCount % 60 === 0) fps = floor(frameRate());
   text(fps, 120, 70);
 
-  // draw hit mis ratio
+  // draw hit / miss ratio
   push();
   noFill();
   stroke(255);
@@ -107,7 +107,7 @@ function drawGameStats() {
   // draw a ship for each life
   var x = 125;
   var y = 97;
-  for (i = 1; i <= lives; i++) {
+  for (l = 1; l <= lives; l++) {
     push();
     translate(x, y);
     scale(0.5);
@@ -161,7 +161,7 @@ function gameOver() {
 
 // what happens when player presses a key
 function keyPressed() {
-  // SPACEBAR; add laser
+  // SPACEBAR; add laser or start a new game
   if (key == ' ') {
     if (gameState === GAME_STARTED) {
       lasers.push(new Laser(ship.pos, ship.heading));
@@ -203,33 +203,33 @@ function keyReleased() {
 
 // create a new game
 function newGame() {
-  // every game starts with 5 lives; increases by one after every level
+  // every game starts with 3 lives
   lives = 3;
 
-  // every game starts with 5 asteroids; inceases by one after avery level
+  // every game starts with 5 asteroids
   numAsteroids = 5;
 
   // reset score
   score = 0;
 
-  // start new initLevel
+  // start new level
   newLevel();
 }
 
 // create a new level
 function newLevel() {
-  // create new asteroids
+  // create asteroids
   createAsteroids();
 
-  // add a new ship
+  // create a ship
   ship = new Ship();
 
-  // empty out the array with lasers; reset stats
+  // reset lasers
   lasers = [];
   lasers.hits = 0;
   lasers.total = 0;
 
-  // empty out the array with explosions
+  // reset explosions
   explosions = [];
 }
 
