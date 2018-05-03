@@ -9,7 +9,7 @@ class Explosion {
     this.type = type;
 
     // set number of particles for ship or asteroidq
-    this.particleCount = (this.type === 'ship' ? 150 : 50);
+    this.particleCount = (this.type === 'ship' ? 250 : 50);
 
     // create particles
     for (let p = 0; p < this.particleCount; p++) {

@@ -4,11 +4,11 @@
 
 class Particle {
   constructor(pos, type) {
-    this.pos = pos.copy();
     this.lifespan = 255;
+    this.pos = pos.copy();
+    this.type = type;
     this.vel = p5.Vector.random2D();
     this.vel.mult(random(1, 2));
-    this.type = type;
 
     // random colored particles for ship exploding
     if (this.type === 'ship') {
@@ -27,7 +27,7 @@ class Particle {
   // show particle
   show() {
     push();
-    strokeWeight(this.type === 'ship' ? 2 : 1);
+    strokeWeight(this.type === 'ship' ? 3 : 1);
     stroke(this.r, this.g, this.b, this.lifespan);
     point(this.pos.x, this.pos.y);
     pop();
@@ -35,7 +35,7 @@ class Particle {
 
   // update particle position and lifespan
   update() {
-    this.lifespan -= 5;
+    if (this.type === 'ship' ? this.lifespan -= 3 : this.lifespan -= 5);
     this.pos.add(this.vel);
   }
 }
