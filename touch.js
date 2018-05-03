@@ -8,4 +8,10 @@ function touchStarted() {
   } else if (gameState === GAME_STARTED) {
     ship.heading = createVector(touches[0].x - ship.pos.x, touches[0].y - ship.pos.y);
   }
+  
+  // draw circle
+  ellipse(mouseX, mouseY, 24, 24);
+  
+  // prevent default browser behavior
+  return false;
 }
