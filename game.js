@@ -233,6 +233,10 @@ function newLevel() {
   explosions = [];
 }
 
+function touchStarted() {
+  ship.heading = createVector(touches[0].x - ship.pos.x, touches[0].y - ship.pos.y);
+}
+
 // responsive UI
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
