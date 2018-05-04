@@ -8,7 +8,7 @@ class Particle {
     this.pos = pos.copy();
     this.type = type;
     this.vel = p5.Vector.random2D();
-    this.vel.mult(random(1, 2));
+    if (this.type === 'ship' ? this.vel.mult(random(1, 3)) : this.vel.mult(random(1, 2)));
 
     // random colored particles for ship exploding
     if (this.type === 'ship') {
@@ -35,7 +35,7 @@ class Particle {
 
   // update particle position and lifespan
   update() {
-    if (this.type === 'ship' ? this.lifespan -= 3 : this.lifespan -= 5);
+    if (this.type === 'ship' ? this.lifespan -= 4 : this.lifespan -= 5);
     this.pos.add(this.vel);
   }
 }
