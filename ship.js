@@ -7,6 +7,7 @@ class Ship {
     this.pos = createVector(width / 2, height / 2);
     this.r = 20; // scale
     this.heading = 0; // heading in radians
+    this.newHeading = null; //new heading in radions
     this.rotation = 0; // rotation
     this.vel = createVector(0, 0); // velocity
     this.isBoosting = false; // thrusting forward or not
@@ -79,7 +80,33 @@ class Ship {
 
   // turn ship
   turn() {
+    // auto rotate the ship based on mouse/touch input
+    if (this.newHeading !== null && this.rotation === 0) {
+      // if difference to the new heading is less than HALF_PI turn clockwise
+      // otherwise turn counter-clockwise
+      if (this.newHeading - this.heading <= PI) {
+        this.setRotation(0.05);
+      } else {
+        this.setRotation(-0.05);
+      }
+    }
+
+    // rotate the ship
     this.heading += this.rotation;
+
+    // if ships heading is within 0.05 stop turning
+    let myAngle = abs(this.heading - this.newHeading);
+    if (myAngle > TWO_PI) {
+      myAngle -= TWO_PI;
+    } else if (myAngle < -TWO_PI) {
+      myAngle += TWO_PI;
+    }
+
+    // console.clear();
+    if (this.newHeading !== null && myAngle <= 0.1) {
+      this.setRotation(0);
+      this.newHeading = null;
+    }
   }
 
   // update ships position
