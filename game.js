@@ -72,7 +72,7 @@ function drawGameStats() {
   textAlign(RIGHT, CENTER);
   text('SCORE:', 115, 10);
   text('HI-SCORE:', 115, 30);
-  text('RATIO:', 115, 50);
+  text('HITS:', 115, 50);
   text('FPS:', 115, 70);
   text('LIVES:', 115, 90);
 
@@ -157,6 +157,9 @@ function gameOver() {
 
 // what happens when player presses a key
 function keyPressed() {
+  // disable auto rotation
+  ship.newHeading = null;
+
   // SPACEBAR; add laser or start a new game
   if (key == ' ') {
     if (gameState === GAME_STARTED) {
@@ -164,37 +167,50 @@ function keyPressed() {
     } else if (gameState === GAME_NOT_STARTED || gameState === GAME_OVER) {
       gameState = GAME_STARTED;
     }
+  }
 
-    // RIGHT ARROW; turn player clock wise
-  } else if (keyCode === RIGHT_ARROW) {
+  // RIGHT ARROW; turn player clock wise
+  if (keyCode === RIGHT_ARROW) {
     ship.setRotation(0.05);
+  }
 
-    // LEFT ARROW; turn player counter clock wise
-  } else if (keyCode === LEFT_ARROW) {
+  // LEFT ARROW; turn player counter clock wise
+  if (keyCode === LEFT_ARROW) {
     ship.setRotation(-0.05);
+  }
 
-    // UP ARROW; move forward
-  } else if (keyCode === UP_ARROW) {
+  // UP ARROW; move forward
+  if (keyCode === UP_ARROW) {
     ship.boosting(true);
+  }
 
-    // C-key; continue a paused game
-  } else if (key === 'C') {
+  // C-key; continue a paused game
+  if (key === 'C') {
     if (gameState === GAME_PAUSED) gameState = GAME_STARTED;
+  }
 
-    // M-key; enable or disable cheats
-  } else if (key === 'M' && gameState === GAME_STARTED) {
+  // M-key; enable or disable cheats
+  if (key === 'M' && gameState === GAME_STARTED) {
     cheats = !cheats;
+  }
 
-    // P-key; pause the game
-  } else if (key === 'P') {
+  // P-key; pause the game
+  if (key === 'P') {
     if (gameState === GAME_STARTED) gameState = GAME_PAUSED;
   }
 }
 
 // what happens when the key is released
 function keyReleased() {
-  ship.setRotation(0);
-  ship.boosting(false);
+  // stop ship from rotating
+  if (keyCode === RIGHT_ARROW || keyCode === LEFT_ARROW) {
+    ship.setRotation(0);
+  }
+
+  // stop ship boosting
+  if (keyCode === UP_ARROW) {
+    ship.boosting(false);
+  }
 }
 
 // create a new game
