@@ -6,6 +6,10 @@ function mouseClicked() {
   if (gameState === GAME_PAUSED || gameState === GAME_NOT_STARTED) {
     gameState = GAME_STARTED;
   } else if (gameState === GAME_STARTED) {
+    // stop ship moving
+    ship.newHeading = null;
+    ship.setRotation(0);
+
     // 0,0 coordinate is in upper left corner of window
     // angles are in radians; zero angle is along X-axis in positive direction
 
