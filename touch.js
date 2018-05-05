@@ -2,7 +2,7 @@
 // Original: Daniel Shiffman
 // Extended: Marco van Malsen
 
-function mouseClicked() {
+function mousePressed() {
   if (gameState === GAME_PAUSED || gameState === GAME_NOT_STARTED) {
     gameState = GAME_STARTED;
   } else if (gameState === GAME_STARTED) {
