@@ -4,13 +4,15 @@
 
 class Ship {
   constructor() {
-    this.pos = createVector(width / 2, height / 2);
-    this.r = 20; // scale
+    this.acc = createVector(0, 0); // acceleration
+    this.isBoosting = false; // thrusting forward or not
     this.heading = -HALF_PI; // heading in radians, upwards direction
     this.newHeading = null; //new heading in radions
+    this.pos = createVector(width * 0.5, height * 0.5); // initial position on screen
+    this.r = 20; // size
     this.rotation = 0; // rotation
+    this.turnAccuracy = 0.05; // two degrees turn accuracy
     this.vel = createVector(0, 0); // velocity
-    this.isBoosting = false; // thrusting forward or not
   }
 
   // increase speed
@@ -27,7 +29,7 @@ class Ship {
 
   // draw the ship
   draw(player) {
-    fill(0);
+    if (cheats && !player ? fill(255, 75) : noFill());
     stroke(255);
     beginShape();
     vertex(0, -22.5); // the nose
@@ -37,14 +39,10 @@ class Ship {
     vertex(-15, 22.5); // lower left tip
     endShape(CLOSE);
 
-    // draw exhaust
-    if (player && this.isBoosting) triangle(-5, 15, 0, 25, 5, 15);
-
-    // draw new heading
-    // if (this.newHeading !== null) {
-    //   let lineH = p5.Vector.fromAngle(this.newHeading - this.heading - HALF_PI);
-    //   line(0, 0, lineH.x * 20, lineH.y * 20);
-    // }
+    if (player) {
+      // draw exhaust
+      if (this.isBoosting) triangle(-5, 15, 0, 25, 5, 15);
+    }
   }
 
   // if the ship leaves the screen it will appear on the opposite side
@@ -74,8 +72,7 @@ class Ship {
   render() {
     push();
     translate(this.pos.x, this.pos.y);
-    rotate(this.heading + PI / 2);
-    // rotate(this.heading);
+    rotate(this.heading + HALF_PI);
     this.draw('player');
     pop();
   }
@@ -87,29 +84,8 @@ class Ship {
 
   // turn ship
   turn() {
-    // auto rotate the ship based on mouse/touch input
-    if (this.newHeading !== null && this.rotation === 0) {
-      // if difference to the new heading is less than HALF_PI turn clockwise
-      // otherwise turn counter-clockwise
-      if (this.newHeading - this.heading <= PI) {
-        this.setRotation(0.05);
-      } else {
-        this.setRotation(-0.05);
-      }
-    }
-
     // rotate the ship
     this.heading += this.rotation;
-
-    // if ships heading is within 0.05 stop turning
-    console.log('heading=' + this.heading);
-    console.log('target heading=' + this.newHeading);
-    let myAngle = this.heading - this.newHeading;
-    if (this.newHeading !== null && abs(myAngle) <= 0.1) {
-      this.setRotation(0);
-      this.newHeading = null;
-      lasers.push(new Laser(ship.pos, ship.heading));
-    }
   }
 
   // update ships position

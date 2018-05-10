@@ -12,6 +12,7 @@ const GAME_OVER = 4;
 // define playing elements
 var asteroids = []; // array with asteroids
 var cheats = false; // enable cheats
+var debug = false; // debug mode
 var explosions = []; // array with explosions (asteroid)
 var fps = 0; // current framerate (take with 1 second interval)
 var gameState = GAME_NOT_STARTED; // boolean keep track if game has been started
@@ -22,6 +23,9 @@ var myfont = ''; //5 font
 var numAsteroids = 5; // total number of asteroids at beginning of the game
 var score = 0; // score of current game
 var ship = null; // the player
+
+// temporary stuff
+var vehicles = [];
 
 // pre load required assets (fonts, sounds, images)
 function preload() {
@@ -38,6 +42,11 @@ function setup() {
 
   // start a new game
   newGame();
+
+  // temporarily add steering behaviour vehicles
+  for (var v = 0; v < 5; v++) {
+    vehicles.push(new Vehicle(random(width), random(height)));
+  }
 }
 
 // loops every frame
@@ -81,5 +90,14 @@ function draw() {
     numAsteroids++; // add one more asteroid
     newLevel(); // start a new level
     gameState = GAME_PAUSED; // pause the game
+  }
+
+  // draw steering behaviour vehicles
+  if (debug) {
+    for (var i = vehicles.length - 1; i >= 0; i--) {
+      vehicles[i].boundaries();
+      vehicles[i].update();
+      vehicles[i].display();
+    }
   }
 }

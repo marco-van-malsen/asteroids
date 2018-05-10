@@ -171,12 +171,12 @@ function keyPressed() {
 
   // RIGHT ARROW; turn player clock wise
   if (keyCode === RIGHT_ARROW) {
-    ship.setRotation(0.05);
+    ship.setRotation(ship.turnAccuracy);
   }
 
   // LEFT ARROW; turn player counter clock wise
   if (keyCode === LEFT_ARROW) {
-    ship.setRotation(-0.05);
+    ship.setRotation(-ship.turnAccuracy);
   }
 
   // UP ARROW; move forward
@@ -187,6 +187,11 @@ function keyPressed() {
   // C-key; continue a paused game
   if (key === 'C') {
     if (gameState === GAME_PAUSED) gameState = GAME_STARTED;
+  }
+
+  // D-key; enable or disable debug
+  if (key === 'D' && gameState === GAME_STARTED) {
+    debug = !debug;
   }
 
   // M-key; enable or disable cheats
