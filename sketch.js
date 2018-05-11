@@ -44,9 +44,7 @@ function setup() {
   newGame();
 
   // temporarily add steering behaviour vehicles
-  for (var v = 0; v < 5; v++) {
-    vehicles.push(new Vehicle(random(width), random(height)));
-  }
+  vehicles.push(new Vehicle(width * 0.5, height * 0.5));
 }
 
 // loops every frame
@@ -93,9 +91,10 @@ function draw() {
   }
 
   // draw steering behaviour vehicles
-  if (debug) {
+  if (cheats) {
     for (var i = vehicles.length - 1; i >= 0; i--) {
       vehicles[i].boundaries();
+      vehicles[i].SeekAndDestroy(asteroids);
       vehicles[i].update();
       vehicles[i].display();
     }
