@@ -29,7 +29,7 @@ class Ship {
 
   // draw the ship
   draw(player) {
-    if (cheats && !player ? fill(255, 75) : noFill());
+    fill(0);
     stroke(255);
     beginShape();
     vertex(0, -22.5); // the nose
