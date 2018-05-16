@@ -157,6 +157,12 @@ function gameOver() {
 
 // what happens when player presses a key
 function keyPressed() {
+  // record last user interaction
+  lastInteraction = frameCount;
+
+  // disable demo mode
+  if (gameState === GAME_DEMO) gameState = GAME_NOT_STARTED;
+
   // disable auto rotation
   ship.newHeading = null;
 

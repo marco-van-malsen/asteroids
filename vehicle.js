@@ -100,12 +100,18 @@ class Vehicle {
     // adjust speed based on proximity
     // reverse course if asteroid is too near
     var distSlowDown = nearest.r * 10;
-    var distReverse = nearest.r * 4;
-    if (shortest < distReverse) {
-      desired.mult(-2);
-      // desired.rotate(random() < 0.5 ? QUARTER_PI : -QUARTER_PI);
+    var distReverse = nearest.r * 5;
+
+    if (shortest > distSlowDown) {
+      desired.mult(10);
     } else if (shortest < distSlowDown) {
-      desired.mult(map(shortest, distReverse, distSlowDown, 0.75, 0.9));
+      desired.mult(map(shortest, distReverse, distSlowDown, 0.3, 0.9));
+    } else if (shortest < distReverse) {
+      // if (random() < 0.5) {
+      // desired.mult(-1);
+      // } else {
+      desired.rotate(random() < 0.9 ? HALF_PI : -HALF_PI);
+      // }
     }
 
     // steering = desired minus velocity
@@ -116,12 +122,17 @@ class Vehicle {
     // set new course
     this.applyForce(course);
 
+    // calculate difference between heading and target
+    // console.log(degrees(desired.heading()));
+    // console.log(degrees(course.heading()));
+    var diff = this.vel.heading() - course.heading();
+    // console.log(degrees(diff));
+    // noLoop();
+
     // fire laser
-    // let curHeading = this.vel.heading();
-    // let newHeading = course.heading() - HALF_PI;
-    // if (shortest < 250 && (newHeading - curHeading) % HALF_PI < 0.01 && lasers.length === 0) {
-    if (shortest < 350 && frameCount % 20 === 0) {
-      // lasers.push(new Laser(this.pos, this.vel.heading()));
+    // if (diff < 0.05 && frameCount % 30 === 0) {
+    if (shortest < distSlowDown && frameCount % 30 === 0) {
+      lasers.push(new Laser(this.pos, this.vel.heading()));
     }
   }
 
